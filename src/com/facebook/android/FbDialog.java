@@ -37,7 +37,6 @@ import android.widget.LinearLayout;
 
 import com.facebook.android.Facebook.DialogListener;
 import com.ntu.iddc.exnote.R;
-import com.ntu.iddc.exnote.R.drawable;
 
 public class FbDialog extends Dialog {
 
