@@ -1,3 +1,12 @@
+/**
+ * é€²ä¾†ç¬¬ä¸€å€‹ç•«é¢ã€‚
+ * è™•ç†Facebookç™»å…¥ã€‚
+ * 
+ * @author é¡åŸ¹å³»
+ * @author Facebookç™»å…¥æ©Ÿåˆ¶ï¼šè”¡æ˜‡å“²
+ * 
+ */
+
 package com.ntu.iddc.exnote;
 
 import java.io.FileNotFoundException;
@@ -22,7 +31,7 @@ import com.facebook.android.FacebookError;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.Facebook.DialogListener;
 
-public class ExNoteActivity extends Activity {
+public class MenuActivity extends Activity {
 	private static final String FACEBOOK_API_KEY = "313743562047452";
 	
 	private ImageButton ib_loginButton;
@@ -67,7 +76,7 @@ public class ExNoteActivity extends Activity {
     };
     
     private void loginFacebook() {
-		mFacebook.authorize(ExNoteActivity.this, new DialogListener(){
+		mFacebook.authorize(MenuActivity.this, new DialogListener(){
 			@Override
 			public void onComplete(Bundle values) {
 				ib_loginButton.setImageResource(R.drawable.logout_button);
@@ -97,9 +106,9 @@ public class ExNoteActivity extends Activity {
 			@Override
 			public void onComplete(String response, Object state) {
 				try {
-					userData = new JSONObject(response);//¨ú±o¸ê®Æ¡I
+					userData = new JSONObject(response);//ï¿½ï¿½oï¿½ï¿½Æ¡I
 
-					//±o¨ì¸ê®Æ«á­n°µªº¨Æ¡A³oÃä¥Î¤@­ÓÂ²³æ½d¨Ò¡Acall¤@­Ó§ïÅÜTextViewªºfunction(¨£138¦æ)
+					//ï¿½oï¿½ï¿½ï¿½Æ«ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½Æ¡Aï¿½oï¿½ï¿½Î¤@ï¿½ï¿½Â²ï¿½ï¿½dï¿½Ò¡Acallï¿½@ï¿½Ó§ï¿½ï¿½ï¿½TextViewï¿½ï¿½function(ï¿½ï¿½138ï¿½ï¿½)
 					example_showUserNameAndId();
 
 				} catch (JSONException e) {
@@ -125,11 +134,11 @@ public class ExNoteActivity extends Activity {
 		});
 	}
     
-    private OnClickListener logoutListener = new OnClickListener(){//logout¥ÎªºListener
+    private OnClickListener logoutListener = new OnClickListener(){//logoutï¿½Îªï¿½Listener
 		@Override
 		public void onClick(View v) {
 			try {
-				mFacebook.logout(ExNoteActivity.this);
+				mFacebook.logout(MenuActivity.this);
 			} catch (Exception e) {
 				//TODO tell user logout failure
 			}
@@ -141,10 +150,10 @@ public class ExNoteActivity extends Activity {
 		}
     };
         
-    //®³¨ì¸ê®Æ«á­n·F³Âªº½d¨Ò
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Æ«ï¿½nï¿½Fï¿½Âªï¿½ï¿½dï¿½ï¿½
     private void example_showUserNameAndId(){
-    	//¥ÎrunOnUiThreadÁ×§K«Dmain Thread¥h°Ê¨ìUI¦Ócrash
-    	ExNoteActivity.this.runOnUiThread(new Runnable() {
+    	//ï¿½ï¿½runOnUiThreadï¿½×§Kï¿½Dmain Threadï¿½hï¿½Ê¨ï¿½UIï¿½ï¿½crash
+    	MenuActivity.this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -158,7 +167,7 @@ public class ExNoteActivity extends Activity {
 		});
     }
     
-    //³B²zintentªºResult
+    //ï¿½Bï¿½zintentï¿½ï¿½Result
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
