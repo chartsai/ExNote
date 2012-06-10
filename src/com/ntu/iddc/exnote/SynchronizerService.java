@@ -19,5 +19,5 @@ public class SynchronizerService extends Service {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+ 
 }
