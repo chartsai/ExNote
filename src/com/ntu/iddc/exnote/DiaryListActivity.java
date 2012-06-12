@@ -9,7 +9,13 @@
 package com.ntu.iddc.exnote;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 public class DiaryListActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
 
 }
