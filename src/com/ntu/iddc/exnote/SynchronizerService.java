@@ -8,8 +8,6 @@
 
 package com.ntu.iddc.exnote;
 
-import java.util.Random;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -40,17 +38,16 @@ public class SynchronizerService extends Service {
     }
 
     public void addValue() {
-    	this.value = this.value++;
+    	this.value++;
     }
     
     /** method for clients */
     public int getValue() {
-    	return this.value;
+    	return this.value++;
     }
 
 	@Override
 	public boolean onUnbind(Intent intent) {
-		// TODO Auto-generated method stub
 		return super.onUnbind(intent);
 	}
 	
