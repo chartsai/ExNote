@@ -2,8 +2,7 @@
  * 進來第一個畫面。
  * 處理Facebook登入。
  * 
- * @author 顏培峻
- * @author Facebook登入機制：蔡昇哲
+ * @author 蔡昇哲
  * 
  */
 
@@ -103,8 +102,10 @@ public class LoginActivity extends Activity {
 				try {
 					JSONObject json = new JSONObject(response);//將FB的user資料存起來					
 					DiaryListActivity.userId = json.getString("id");
+					DiaryListActivity.userName = json.getString("username");
 					DiaryListActivity.settings.edit()
 										.putString(DiaryListActivity.USER_ID, DiaryListActivity.userId)
+										.putString(DiaryListActivity.USER_NAME, DiaryListActivity.userName)
 										.commit();
 					
 					setResult(RESULT_OK);
