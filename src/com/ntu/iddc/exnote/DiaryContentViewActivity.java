@@ -26,14 +26,14 @@ public class DiaryContentViewActivity extends Activity {
 		setTitle(R.string.async_title);
 		setContentView(R.layout.title_layout);
 
-		viewFlow = (ViewFlow) findViewById(R.id.viewflow);
-		AsyncAdapter adapter = new AsyncAdapter(this);
-		viewFlow.setAdapter(adapter, adapter.getTodayId());
-		
-		TitleFlowIndicator indicator = (TitleFlowIndicator) findViewById(R.id.viewflowindic);
-		indicator.setTitleProvider(adapter);
-		
-		viewFlow.setFlowIndicator(indicator);
+//		viewFlow = (ViewFlow) findViewById(R.id.viewflow);
+//		AsyncAdapter adapter = new AsyncAdapter(this);
+//		viewFlow.setAdapter(adapter, adapter.getTodayId());
+//		
+//		TitleFlowIndicator indicator = (TitleFlowIndicator) findViewById(R.id.viewflowindic);
+//		indicator.setTitleProvider(adapter);
+//		
+//		viewFlow.setFlowIndicator(indicator);
     }
     
 }

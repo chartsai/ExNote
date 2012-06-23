@@ -11,7 +11,7 @@
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			app:footerLineHeight="2dp"
-			app:customTypeface="fonts/Antic.ttf"
+			
 			app:footerTriangleHeight="10dp" 
 			app:textColor="#FFFFFFFF" 
 			app:selectedColor="#FFFFC445" 

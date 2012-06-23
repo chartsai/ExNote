@@ -124,6 +124,8 @@ public class DiaryListActivity extends Activity {
 	public void OnDiaryClickListener(View v){
 		DiaryView dv = (DiaryView) v;
 		tv_selectedDiaryName.setText(dv.getText());
+		
+		startActivity(new Intent(DiaryListActivity.this, DiaryContentViewActivity.class));
 	}
 
 	@Override
