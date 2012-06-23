@@ -2,8 +2,7 @@
  * 進來第一個畫面。
  * 處理Facebook登入。
  * 
- * @author 顏培峻
- * @author Facebook登入機制：蔡昇哲
+ * @author 蔡昇哲
  * 
  */
 
@@ -21,26 +20,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
 
-public class MenuActivity extends Activity {
+public class LoginActivity extends Activity {
 	private static final String FACEBOOK_API_KEY = "313743562047452";
-	
-	private ImageButton ib_loginButton;
-	private TextView tv_userName;
-	private TextView tv_userId;
+		
+	private Button ib_loginButton;
 	
 	private Facebook mFacebook;
 	private AsyncFacebookRunner mAsync;
-	private JSONObject userData;
 	
     /** Called when the activity is first created. */
     @Override
@@ -59,9 +55,7 @@ public class MenuActivity extends Activity {
     }
     
     private void setViews(){
-    	ib_loginButton = (ImageButton)findViewById(R.id.loginButton);
-    	tv_userId = (TextView)findViewById(R.id.userId);
-    	tv_userName = (TextView)findViewById(R.id.userName);
+    	ib_loginButton = (Button)findViewById(R.id.loginButton);
     }
     
     private void setListeners(){
@@ -76,43 +70,49 @@ public class MenuActivity extends Activity {
     };
     
     private void loginFacebook() {
-		mFacebook.authorize(MenuActivity.this, new DialogListener(){
+		mFacebook.authorize(LoginActivity.this, new DialogListener(){
 			@Override
 			public void onComplete(Bundle values) {
-				ib_loginButton.setImageResource(R.drawable.logout_button);
-				ib_loginButton.setOnClickListener(logoutListener);
-				getUserData();
+				getUserIdAndShowDiaryList();
 			}
 
 			@Override
 			public void onFacebookError(FacebookError e) {
-				// TODO show some error information to user
+				Toast.makeText(LoginActivity.this, "facebook login is error now", Toast.LENGTH_LONG).show();
 			}
 
 			@Override
 			public void onError(DialogError e) {
 				// TODO show some error information to user
+				Toast.makeText(LoginActivity.this, "FB Login Error", Toast.LENGTH_LONG).show();
 			}
 
 			@Override
 			public void onCancel() {
 				// TODO show some error information to user
+				Toast.makeText(LoginActivity.this, "FB Login Be Cancel", Toast.LENGTH_LONG).show();
 			} 
         });
 	}
     
-    private void getUserData() {
+    private void getUserIdAndShowDiaryList() {
 		mAsync.request("me", new RequestListener(){
 			@Override
 			public void onComplete(String response, Object state) {
 				try {
-					userData = new JSONObject(response);//��o��ơI
-
-					//�o���ƫ�n�����ơA�o��Τ@��²��d�ҡAcall�@�ӧ���TextView��function(��138��)
-					example_showUserNameAndId();
-
+					JSONObject json = new JSONObject(response);//將FB的user資料存起來					
+					DiaryListActivity.userId = json.getString("id");
+					DiaryListActivity.userName = json.getString("username");
+					DiaryListActivity.settings.edit()
+										.putString(DiaryListActivity.USER_ID, DiaryListActivity.userId)
+										.putString(DiaryListActivity.USER_NAME, DiaryListActivity.userName)
+										.commit();
+					
+					setResult(RESULT_OK);
+					finish();
+										
 				} catch (JSONException e) {
-					//TODO Tell user facebook feedback error.
+					Toast.makeText(LoginActivity.this, "FB 回傳資料異常", Toast.LENGTH_LONG).show();
 				}
 			}
 			@Override
@@ -133,41 +133,8 @@ public class MenuActivity extends Activity {
 			}
 		});
 	}
-    
-    private OnClickListener logoutListener = new OnClickListener(){//logout�Ϊ�Listener
-		@Override
-		public void onClick(View v) {
-			try {
-				mFacebook.logout(MenuActivity.this);
-			} catch (Exception e) {
-				//TODO tell user logout failure
-			}
-			ib_loginButton.setImageResource(R.drawable.login_button);
-			ib_loginButton.setOnClickListener(loginListener);
-			userData = null;
-			tv_userId.setText("Click Button to re-login");
-			tv_userName.setText("Logout Succeed!");
-		}
-    };
-        
-    //�����ƫ�n�F�ª��d��
-    private void example_showUserNameAndId(){
-    	//��runOnUiThread�קK�Dmain Thread�h�ʨ�UI��crash
-    	MenuActivity.this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					String id = userData.getString("id");// get facebook id
-					String name = userData.getString("name");// get user name
-					tv_userId.setText(id);
-					tv_userName.setText(name);
-				} catch (JSONException e) {
-				}
-			}
-		});
-    }
-    
-    //�B�zintent��Result
+            
+    //處理intent的Result
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

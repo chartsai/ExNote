@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ImageButton
+    <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/login_button" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/login_button" />
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:text="Welcome!"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:text="第一次使用請先用FB帳號註冊" android:textSize="20dip"/>
 
     <TextView
-        android:id="@+id/userId"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:text="Please Click Login to Continue"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="我們只會使用您的帳號名稱來註冊" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.ntu.iddc.exnote"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <com.markupartist.android.widget.ActionBar
+        android:id = "@+id/action_bar"
+        android:layout_width ="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Diary List"
+    	style="@style/ActionBar"
+        />
+
+    <RelativeLayout
+        android:id="@+id/diary_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:background="#FFFFFFFF">
+
+        <com.ntu.iddc.exnote.DiaryView
+            android:id="@+id/diaryView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="54dp"
+            android:layout_marginTop="69dp"
+            android:src="@drawable/diary" 
+            android:visibility="invisible"
+            android:onClick="OnDiaryClickListener"/>
+
+        <com.ntu.iddc.exnote.DiaryView
+            android:id="@+id/diaryView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/diaryView1"
+            android:layout_marginLeft="61dp"
+            android:layout_toRightOf="@+id/diaryView1"
+            android:src="@drawable/diary"
+            android:visibility="invisible"
+            android:onClick="OnDiaryClickListener"/>
+
+        <com.ntu.iddc.exnote.DiaryView
+            android:id="@+id/diaryView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/diaryView1"
+            android:layout_below="@+id/diaryView1"
+            android:layout_marginTop="38dp"
+            android:src="@drawable/diary" 
+            android:visibility="invisible"
+            android:onClick="OnDiaryClickListener"/>
+
+        <com.ntu.iddc.exnote.DiaryView
+            android:id="@+id/diaryView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/diaryView2"
+            android:layout_alignTop="@+id/diaryView3"
+            android:src="@drawable/diary" 
+            android:visibility="invisible"
+            android:onClick="OnDiaryClickListener"/>
+
+        <com.ntu.iddc.exnote.DiaryView
+            android:id="@+id/diaryView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/diaryView3"
+            android:layout_below="@+id/diaryView3"
+            android:layout_marginTop="44dp"
+            android:src="@drawable/diary" 
+            android:visibility="invisible"
+            android:onClick="OnDiaryClickListener"/>
+
+        <com.ntu.iddc.exnote.DiaryView
+            android:id="@+id/diaryView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/diaryView4"
+            android:layout_alignTop="@+id/diaryView5"
+            android:src="@drawable/diary" 
+            android:visibility="invisible"
+            android:onClick="OnDiaryClickListener"/>
+
+        <TextView
+            android:id="@+id/diaryName_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:textColor="#88FF00FF"
+            android:textSize="20dip" />
+
+    </RelativeLayout>
+
+</LinearLayout>

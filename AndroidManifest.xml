@@ -11,8 +11,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name="MenuActivity"
-            android:label="@string/app_name" >
+            android:name="DiaryListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +22,7 @@
         </activity>
         <activity android:name="DiaryContentViewActivity"></activity>
         <activity android:name="DiaryEditorActivity"></activity>
-        <activity android:name="DiaryListActivity"></activity>
+        <activity android:name="LoginActivity"></activity>
         <service android:name="SynchronizerService"></service>
     </application>
 
