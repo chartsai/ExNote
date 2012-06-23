@@ -1,9 +1,7 @@
 /**
- * ç¬¬äºŒå€‹ç•«é¢ï¼Œ(FBç™»å…¥å¾Œç¬¬ä¸€å€‹ç•«é¢)
- * é¡¯ç¤ºæ‰€æœ‰æ—¥è¨˜çš„ç•«é¢(æ—¥è¨˜æ¶)ï¼Œä»¥åŠå¢åˆªæ—¥è¨˜ï¼ŒHelpç­‰
- * 
- * @author è”¡æ˜‡å“²
- * 
+ * ç¬¬ä?????¢ï?(FB?»å?å¾?¬¬ä¸???«é?)
+ * é¡¯ç¤º????¥è???????¥è???ï¼?»¥????ªæ?è¨??Helpç­? * 
+ * @author ?¡æ??? * 
  */
 
 package com.ntu.iddc.exnote;
@@ -65,7 +63,7 @@ public class DiaryListActivity extends Activity {
 
 	private void setViews() {
 		mActionBar = (ActionBar) findViewById(R.id.action_bar);
-		mActionBar.setTitle(userName + "çš„æ—¥è¨˜æ«ƒ");
+		mActionBar.setTitle(userName + "???è¨??");
 		
 		dv_diaryView1 = (DiaryView) findViewById(R.id.diaryView1);
 		dv_diaryView2 = (DiaryView) findViewById(R.id.diaryView2);
@@ -82,10 +80,10 @@ public class DiaryListActivity extends Activity {
 	}
 
 	private void setDiaries() {
-		dv_diaryView1.setText("æ—¥è¨˜ä¸€è™Ÿï¼");
+		dv_diaryView1.setText("?¥è?ä¸??ï¼?);
 		dv_diaryView1.setVisibility(View.VISIBLE);
 		
-		dv_diaryView2.setText("æ—¥è¨˜äºŒè™Ÿï¼");
+		dv_diaryView2.setText("?¥è?äº??ï¼?);
 		dv_diaryView2.setVisibility(View.VISIBLE);
 	}
 
@@ -149,11 +147,11 @@ public class DiaryListActivity extends Activity {
 		if (requestCode == REQUEST_CODE_LOGIN) {
 			switch (resultCode) {
 			case RESULT_OK:
-				Toast.makeText(DiaryListActivity.this, "ç™»å…¥æˆåŠŸï¼",
+				Toast.makeText(DiaryListActivity.this, "?»å????ï¼?,
 						Toast.LENGTH_LONG).show();
 				break;
 			case RESULT_CANCELED:
-				Toast.makeText(DiaryListActivity.this, "å°šæœªç™»å…¥â€¦",
+				Toast.makeText(DiaryListActivity.this, "å°???»å???,
 						Toast.LENGTH_LONG).show();
 				break;
 			default:
