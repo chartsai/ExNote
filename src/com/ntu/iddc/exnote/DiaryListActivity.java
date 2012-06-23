@@ -1,7 +1,6 @@
 /**
- * ç¬¬ä?????¢ï?(FB?»å?å¾?¬¬ä¸???«é?)
- * é¡¯ç¤º????¥è???????¥è???ï¼?»¥????ªæ?è¨??Helpç­? * 
- * @author ?¡æ??? * 
+ * Main menu.
+ * show all diary list 
  */
 
 package com.ntu.iddc.exnote;
@@ -63,7 +62,7 @@ public class DiaryListActivity extends Activity {
 
 	private void setViews() {
 		mActionBar = (ActionBar) findViewById(R.id.action_bar);
-		mActionBar.setTitle(userName + "???è¨??");
+		mActionBar.setTitle(userName + getResources().getString(R.string.diary_list));
 		
 		dv_diaryView1 = (DiaryView) findViewById(R.id.diaryView1);
 		dv_diaryView2 = (DiaryView) findViewById(R.id.diaryView2);
@@ -80,10 +79,10 @@ public class DiaryListActivity extends Activity {
 	}
 
 	private void setDiaries() {
-		dv_diaryView1.setText("?¥è?ä¸??ï¼?);
+		dv_diaryView1.setText("æ—¥è¨˜ä¸€è™Ÿ");
 		dv_diaryView1.setVisibility(View.VISIBLE);
 		
-		dv_diaryView2.setText("?¥è?äº??ï¼?);
+		dv_diaryView2.setText("æ—¥è¨˜äºŒè™Ÿ");
 		dv_diaryView2.setVisibility(View.VISIBLE);
 	}
 
@@ -147,11 +146,11 @@ public class DiaryListActivity extends Activity {
 		if (requestCode == REQUEST_CODE_LOGIN) {
 			switch (resultCode) {
 			case RESULT_OK:
-				Toast.makeText(DiaryListActivity.this, "?»å????ï¼?,
+				Toast.makeText(DiaryListActivity.this, R.string.fb_login_succeed,
 						Toast.LENGTH_LONG).show();
 				break;
 			case RESULT_CANCELED:
-				Toast.makeText(DiaryListActivity.this, "å°???»å???,
+				Toast.makeText(DiaryListActivity.this, R.string.fb_login_failure,
 						Toast.LENGTH_LONG).show();
 				break;
 			default:

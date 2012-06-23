@@ -7,6 +7,10 @@
     <string name="circle_title">CircleFlowIndicator</string>
     <string name="diff_title">DifferentViewFlow</string>
     <string name="async_title">AsyncDataLoading</string>
+    
+    <string name="fb_login_succeed">登入成功！</string>
+    <string name="fb_login_failure">登入失敗......</string>
+    <string name="diary_list">的日記櫃</string>
 
     <string name="actionbar_activity_not_found">Failed to open intent...</string>
 
