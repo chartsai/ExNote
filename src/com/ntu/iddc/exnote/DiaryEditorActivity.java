@@ -8,7 +8,8 @@
 package com.ntu.iddc.exnote;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 public class DiaryEditorActivity extends Activity {
-
+	
 }
