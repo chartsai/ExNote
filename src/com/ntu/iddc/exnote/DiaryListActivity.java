@@ -8,6 +8,7 @@
 
 package com.ntu.iddc.exnote;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -124,6 +125,16 @@ public class DiaryListActivity extends Activity {
 	public void OnDiaryClickListener(View v){
 		DiaryView dv = (DiaryView) v;
 		tv_selectedDiaryName.setText(dv.getText());
+		Intent intent = new Intent();
+     	 intent.setClass(DiaryListActivity.this, DiaryContentViewActivity.class);
+		Bundle bundle = new Bundle();
+     	 bundle.putString("authorId", "1");
+     	 bundle.putString("diaryId", "1");
+     	 bundle.putString("authorName", "1");
+
+     	 intent.putExtras(bundle);
+		startActivity(intent);
+
 	}
 
 	@Override

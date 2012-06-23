@@ -1,21 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	
-	<ProgressBar android:id="@+id/progress"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></ProgressBar>
-		
-	<LinearLayout android:layout_height="wrap_content"
-		android:id="@+id/content" android:layout_width="fill_parent"
-		android:orientation="vertical">
-		
-		<TextView android:id="@+id/text" android:text="Content loaded."
-			android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-		<TextView android:id="@+id/date" android:text="This is content."
-			android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-			
-	</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+    </ProgressBar>
 
-</LinearLayout>
+    <ListView
+        android:id="@+id/udiniList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/NewDiary"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp" >
+        
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/NewDiary"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Content loaded." />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This is content." />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/NewDiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="NewDiary" />
+
+</RelativeLayout>
