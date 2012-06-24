@@ -51,14 +51,14 @@ public class DiaryEditorActivity extends Activity {
 	     	{
 	    	 
 	    	 Date nowDate = new Date(); 
-	    	 DateFormat shortFormat = new SimpleDateFormat("HH:mm");
+	    	 DateFormat shortFormat = new SimpleDateFormat("yyyyMMddhhmmssSSSSSS");
 	    	 
 	    	 
 	    	 
 	    	 title = titleText.getText().toString();
 	    	 article = articleText.getText().toString();
 	    	 time = shortFormat.format(nowDate);
-	    	 dbHelper.InsertNewDiary(diaryId, authorId, authorName, date, time, title+" by "+authorName, article);
+	    	 dbHelper.insertNewDiary(diaryId, authorId, authorName, date, time, title+" by "+authorName, article);
 	    	 // Close this Activity
 	    	 DiaryEditorActivity.this.setResult(RESULT_OK);
 	    	 DiaryEditorActivity.this.finish();              

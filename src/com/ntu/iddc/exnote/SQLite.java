@@ -1,5 +1,6 @@
 package com.ntu.iddc.exnote;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -31,6 +32,30 @@ public class SQLite extends SQLiteOpenHelper {
 		    + ");";
 		//建立config資料表，詳情請參考SQL語法
 		db.execSQL(DATABASE_CREATE_TABLE);
+		
+		DATABASE_CREATE_TABLE =
+			    "create table DiaryList ("
+			        + "_ID INTEGER PRIMARY KEY,"
+			        + "DiaryId TEXT,"
+			        + "DiaryName TEXT,"
+			        + "DiaryIcon TEXT,"
+			        + "OwnerId TEXT,"
+			        + "UpdateTime TEXT"
+			    + ");";
+			//建立config資料表，詳情請參考SQL語法
+			db.execSQL(DATABASE_CREATE_TABLE);
+			DATABASE_CREATE_TABLE =
+				    "create table CoWorkerList ("
+				        + "_ID INTEGER PRIMARY KEY,"
+				        + "DiaryId TEXT,"
+				        + "UserId TEXT,"
+				        + "UserName TEXT,"
+				        + "OwnerId TEXT"
+				        + ");";
+				//建立config資料表，詳情請參考SQL語法
+				db.execSQL(DATABASE_CREATE_TABLE);
+			
+		
 	}
  
 	@Override
@@ -40,28 +65,57 @@ public class SQLite extends SQLiteOpenHelper {
 		onCreate(db);
 	}
 	
-	public Cursor getAll() {
+	public Cursor getAllDiaryList() {
+	    return db.rawQuery("SELECT * FROM DiaryList", null);
+	}
+	public String getLastUpdateTimeByDiaryId(String diaryId) {
+		Cursor cursor=db.rawQuery( 
+			     "SELECT UpdateTime FROM DiaryList WHERE diaryId=?", new String[]{diaryId});
+		return cursor.getString(0);
+	}
+	public Cursor getAllDiaryContent() {
 	    return db.rawQuery("SELECT * FROM DiaryContent", null);
+	}
+	public Cursor getAllDiaryContentByDiaryId(String diaryId) {
+	    return db.rawQuery("SELECT * FROM DiaryContent WHER diaryId=?", new String[]{diaryId});
+	}
+	public Cursor getDiaryContentByLastUpdateTime(String time) {
+	    return db.rawQuery("SELECT * FROM DiaryContent WHER UpdateTime> ?", new String[]{time});
+	}
+	public Cursor getAllCoWorkerByDiaryId(String diaryId) {
+	    return db.rawQuery("SELECT * FROM CoWorkerList WHER diaryId=?", new String[]{diaryId});
+	}
+	
+	
+	
+	public void setUpdateTimeByDiaryIdAndTime(String diaryId, String time){
+		ContentValues cv = new ContentValues();
+		        cv.put("UpdateTime", time);
+		db.update("DiaryList", cv, "diaryId="+diaryId, null);
 	}
 	
 	public Cursor getDiaryByDate(String date,String diaryId){
-	 Cursor cursor=db.rawQuery( 
-		     "SELECT * FROM DiaryContent WHERE date=? AND diaryId=?", new String[]{date,diaryId});
+		Cursor cursor=db.rawQuery( 
+		     "SELECT * FROM DiaryContent WHERE date=? AND diaryId=? ORDER BY Time", new String[]{date,diaryId});
 	return cursor;
 	}
 //新增一筆記錄，成功回傳rowID，失敗回傳-1
-	public void InsertNewDiary(String diaryId, String authorId, String authorName, String date, String time, String title, String article) {
+	public void insertNewDiary(String diaryId, String authorId, String authorName, String date, String time, String title, String article) {
 
 	db.execSQL("INSERT INTO DiaryContent(DiaryId,AuthorId,authorName,Date,Time,Title,Article) values(?,?,?,?,?,?,?)",
 			new Object[]{diaryId,authorId,authorName,date,time,title,article});
-		//		ContentValues args = new ContentValues();
-//		args.put("DiaryId", diaryId);
-//		args.put("AthorId", authorId);
-//		args.put("Date", date);
-//		args.put("Time", time);
-//		args.put("Tile", title);
-//		args.put("Article", article);
-//		return db.insert("DiaryContent", null, args);
-    }
+	}	
+	public void creatNewDiary(String diaryId, String diaryName, String diaryIcon, String ownerId, String updateTime) {
+
+		db.execSQL("INSERT INTO DiaryList(DiaryId,DiaryName,DiaryIcon,OwnerId,UpdateTime) values(?,?,?,?,?)",
+				new Object[]{diaryId,diaryName,diaryIcon,ownerId,updateTime});
+	
+	}
+	public void insertNewCoWorker(String diaryId, String userId, String userName, String ownerId) {
+
+		db.execSQL("INSERT INTO CoWorkerList(DiaryId,UserId,UserName,OwnerId) values(?,?,?,?)",
+				new Object[]{diaryId,userId,userName,ownerId});
+		}	
+
 	
 }
