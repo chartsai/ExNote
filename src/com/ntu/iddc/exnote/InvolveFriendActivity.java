@@ -15,7 +15,7 @@ public class InvolveFriendActivity extends ListActivity{
 		listview = new ListView(this);
 		setContentView(listview);
 		
-		
+//		listview.setAdapter(adapter)
 	}
 
 }

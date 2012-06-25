@@ -83,6 +83,9 @@ public class Connection {
     	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
 
     	String lastUpdateTime = dbHelper.getLastUpdateTimeByDiaryId(diaryId);
+    	
+    	Log.d("TAG", "WHOWHOWHO" + lastUpdateTime);
+    	
     	Cursor cursor = dbHelper.getDiaryContentByLastUpdateTimeAndDiaryId(lastUpdateTime, diaryId);
     	JSONArray jsonarray = new JSONArray();
     	//TODO for loop to put
@@ -90,7 +93,6 @@ public class Connection {
     	
     	if( cursor.moveToFirst() ){
     		do{
-    			Log.d("TAG", "now loop: " + tmp++);
 		    	try {
 		    		JSONObject jsonobject = new JSONObject();
 		    		Log.e("EEEEEEE", cursor.getString(1));
@@ -111,7 +113,7 @@ public class Connection {
     	// -->
 
     	nvps.add(new BasicNameValuePair("diaryId", diaryId));
-		nvps.add(new BasicNameValuePair("update_time", lastUpdateTime));
+		nvps.add(new BasicNameValuePair("updateTime", lastUpdateTime));
 		nvps.add(new BasicNameValuePair("uploadData", jsonarray.toString()));
 		
 		Log.d("TAG", jsonarray.toString());
@@ -131,6 +133,7 @@ public class Connection {
 			JSONObject jo = new JSONObject(responseString);
 			String update_time = jo.getString("update_datetime");
 			//TODO write time to db
+			Log.d("TAG", "update_time = " + update_time);
 			dbHelper.setUpdateTimeByDiaryIdAndTime(diaryId, update_time);
 			
 			JSONArray ja = jo.getJSONArray("new_content");
@@ -143,7 +146,7 @@ public class Connection {
 				String ai = j.getString("author_id");
 				String an = j.getString("author_name");
 				String ds = j.getString("datetime_string");
-				String at = j.getString("datetime");
+				String at = j.getString("dateTime");
 				String tt = j.getString("title");
 				String ac = j.getString("article");
 				
