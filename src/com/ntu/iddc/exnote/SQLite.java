@@ -92,6 +92,17 @@ public class SQLite extends SQLiteOpenHelper {
 	public Cursor getDiaryContentByLastUpdateTimeAndDiaryId(String time,String diaryId) {
 	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time>? AND DiaryId=?", new String[]{time,diaryId});
 	}
+	public Cursor getDiaryContentByDiaryIdIfNotUpload(String diaryId) {
+		Cursor cursor =	db.rawQuery("SELECT * FROM DiaryContent WHERE IfUplaod=? AND DiaryId=?", new String[]{"F",diaryId});
+		setContentUplaod(cursor);
+		return cursor;
+	}
+	public Cursor getDiaryContentIfNotUpload() {
+		Cursor cursor =	db.rawQuery("SELECT * FROM DiaryContent WHERE IfUplaod=?", new String[]{"F"});
+		setContentUplaod(cursor);
+		return cursor;
+	}
+	
 	public Cursor getAllCoWorkerByDiaryId(String diaryId) {
 	    return db.rawQuery("SELECT * FROM CoWorkerList WHERE DiaryId=?", new String[]{diaryId});
 	}
@@ -103,12 +114,23 @@ public class SQLite extends SQLiteOpenHelper {
 		        cv.put("UpdateTime", time);
 		db.update("DiaryList", cv, "DiaryId =?", new String[]{diaryId});
 	}
-	
-	public void setContentUplaod(String _id){
+//	
+//	public void setContentUplaod(String _id){
+//		ContentValues cv = new ContentValues();
+//		        cv.put("IfUpload", "T");
+//		db.update("DiaryContent", cv, "_ID =?", new String[]{_id});
+//	}
+	private void setContentUplaod(Cursor cursor){
+		if(cursor.moveToFirst())
+		{
+			do{
 		ContentValues cv = new ContentValues();
 		        cv.put("IfUpload", "T");
-		db.update("DiaryContent", cv, "_ID =?", new String[]{_id});
-	}
+		db.update("DiaryContent", cv, "_ID =?", new String[]{cursor.getString(0)});
+		}while(cursor.moveToNext());
+		}
+		}
+	
 	
 	public Cursor getDiaryByDate(String date,String diaryId){
 		Cursor cursor=db.rawQuery( 
