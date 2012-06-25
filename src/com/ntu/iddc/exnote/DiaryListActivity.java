@@ -36,8 +36,8 @@ public class DiaryListActivity extends Activity {
 	public static final int REQUEST_CODE_LOGIN = 11;
 
 	public static SharedPreferences settings;
-	public static String userId;
-	public static String userName;
+	public static String userId = "";
+	public static String userName = "";
 
 	private SQLite dbHelper;
 	
@@ -113,42 +113,42 @@ public class DiaryListActivity extends Activity {
 				dv_diaryView6.setDiaryName(cursor.getString(2));
 				dv_diaryView6.setImageResource(R.drawable.ic_launcher);
 				dv_diaryView6.setVisibility(View.VISIBLE);
-				Connection.synchronizeDiaryContent(this, cursor.getString(1));
+				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 5:
 				dv_diaryView5.setDiaryId(cursor.getString(1));
 				dv_diaryView5.setDiaryName(cursor.getString(2));
 				//TODO set image
 				dv_diaryView5.setVisibility(View.VISIBLE);
-				Connection.synchronizeDiaryContent(this, cursor.getString(1));
+				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 4:
 				dv_diaryView4.setDiaryId(cursor.getString(1));
 				dv_diaryView4.setDiaryName(cursor.getString(2));
 				//TODO set image
 				dv_diaryView4.setVisibility(View.VISIBLE);
-				Connection.synchronizeDiaryContent(this, cursor.getString(1));
+				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 3:
 				dv_diaryView3.setDiaryId(cursor.getString(1));
 				dv_diaryView3.setDiaryName(cursor.getString(2));
 				//TODO set image
 				dv_diaryView3.setVisibility(View.VISIBLE);
-				Connection.synchronizeDiaryContent(this, cursor.getString(1));
+				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 2:
 				dv_diaryView2.setDiaryId(cursor.getString(1));
 				dv_diaryView2.setDiaryName(cursor.getString(2));
 				//TODO set image
 				dv_diaryView2.setVisibility(View.VISIBLE);
-				Connection.synchronizeDiaryContent(this, cursor.getString(1));
+				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 1:
 				dv_diaryView1.setDiaryId(cursor.getString(1));
 				dv_diaryView1.setDiaryName(cursor.getString(2));
 				dv_diaryView1.setImageResource(R.drawable.ic_launcher);
 				dv_diaryView1.setVisibility(View.VISIBLE);
-				Connection.synchronizeDiaryContent(this, cursor.getString(1));
+				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 			case 0:
 				//do nothing
 			default:
@@ -229,8 +229,7 @@ public class DiaryListActivity extends Activity {
 			Cursor cursor = dbHelper.getAllDiaryList();
 			if ( cursor.moveToFirst()) {
 				do{
-					Connection.synchronizeDiaryContent(DiaryListActivity.this,
-													   cursor.getString(1) );
+					Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1) );
 				} while(cursor.moveToNext());
 			}
 			cursor.close();
