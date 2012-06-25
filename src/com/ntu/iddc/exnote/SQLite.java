@@ -28,7 +28,8 @@ public class SQLite extends SQLiteOpenHelper {
 		        + "Date TEXT,"
 		        + "Time TEXT,"
 		        + "Title TEXT,"
-		        + "Article TEXT"
+		        + "Article TEXT,"
+		        + "IfUpload TEXT"
 		    + ");";
 		//建立config資料表，詳情請參考SQL語法
 		db.execSQL(DATABASE_CREATE_TABLE);
@@ -72,7 +73,7 @@ public class SQLite extends SQLiteOpenHelper {
 	}
 	public String getLastUpdateTimeByDiaryId(String diaryId) {
 		Cursor cursor=db.rawQuery( 
-			     "SELECT * FROM DiaryList WHERE diaryId=?", new String[]{diaryId});
+			     "SELECT * FROM DiaryList WHERE DiaryId=?", new String[]{diaryId});
 		if( cursor.moveToFirst() ){
 			return cursor.getString(5);
 		} else {
@@ -91,6 +92,17 @@ public class SQLite extends SQLiteOpenHelper {
 	public Cursor getDiaryContentByLastUpdateTimeAndDiaryId(String time,String diaryId) {
 	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time>? AND DiaryId=?", new String[]{time,diaryId});
 	}
+	public Cursor getDiaryContentByDiaryIdIfNotUpload(String diaryId) {
+		Cursor cursor =	db.rawQuery("SELECT * FROM DiaryContent WHERE IfUplaod=? AND DiaryId=?", new String[]{"F",diaryId});
+		setContentUplaod(cursor);
+		return cursor;
+	}
+	public Cursor getDiaryContentIfNotUpload() {
+		Cursor cursor =	db.rawQuery("SELECT * FROM DiaryContent WHERE IfUplaod=?", new String[]{"F"});
+		setContentUplaod(cursor);
+		return cursor;
+	}
+	
 	public Cursor getAllCoWorkerByDiaryId(String diaryId) {
 	    return db.rawQuery("SELECT * FROM CoWorkerList WHERE DiaryId=?", new String[]{diaryId});
 	}
@@ -100,8 +112,25 @@ public class SQLite extends SQLiteOpenHelper {
 	public void setUpdateTimeByDiaryIdAndTime(String diaryId, String time){
 		ContentValues cv = new ContentValues();
 		        cv.put("UpdateTime", time);
-		db.update("DiaryList", cv, "diaryId="+diaryId, null);
+		db.update("DiaryList", cv, "DiaryId =?", new String[]{diaryId});
 	}
+//	
+//	public void setContentUplaod(String _id){
+//		ContentValues cv = new ContentValues();
+//		        cv.put("IfUpload", "T");
+//		db.update("DiaryContent", cv, "_ID =?", new String[]{_id});
+//	}
+	private void setContentUplaod(Cursor cursor){
+		if(cursor.moveToFirst())
+		{
+			do{
+		ContentValues cv = new ContentValues();
+		        cv.put("IfUpload", "T");
+		db.update("DiaryContent", cv, "_ID =?", new String[]{cursor.getString(0)});
+		}while(cursor.moveToNext());
+		}
+		}
+	
 	
 	public Cursor getDiaryByDate(String date,String diaryId){
 		Cursor cursor=db.rawQuery( 
@@ -109,10 +138,10 @@ public class SQLite extends SQLiteOpenHelper {
 	return cursor;
 	}
 //新增一筆記錄，成功回傳rowID，失敗回傳-1
-	public void insertNewDiary(String diaryId, String authorId, String authorName, String date, String time, String title, String article) {
+	public void insertNewDiary(String diaryId, String authorId, String authorName, String date, String time, String title, String article, String ifUpload) {
 
-	db.execSQL("INSERT INTO DiaryContent(DiaryId,AuthorId,authorName,Date,Time,Title,Article) values(?,?,?,?,?,?,?)",
-			new Object[]{diaryId,authorId,authorName,date,time,title,article});
+	db.execSQL("INSERT INTO DiaryContent(DiaryId,AuthorId,authorName,Date,Time,Title,Article,IfUpload) values(?,?,?,?,?,?,?,?)",
+			new Object[]{diaryId,authorId,authorName,date,time,title,article,ifUpload});
 	}	
 	public void creatNewDiary(String diaryId, String diaryName, String diaryIcon, String ownerId, String updateTime) {
 
