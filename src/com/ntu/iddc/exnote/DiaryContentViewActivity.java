@@ -14,8 +14,10 @@ import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 
 public class DiaryContentViewActivity extends Activity {
@@ -23,7 +25,8 @@ public class DiaryContentViewActivity extends Activity {
 	private ViewFlow viewFlow;
 	AsyncAdapter adapter;
 	Button button;
-	String authorId="1", authorName="1", diaryId="1";
+	String authorId, authorName, diaryId;
+	private SQLite dbHelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +45,8 @@ public class DiaryContentViewActivity extends Activity {
 		indicator.setTitleProvider(adapter);
 		viewFlow.setFlowIndicator(indicator);
 		adapter.notifyDataSetChanged();
+		
+		dbHelper = new SQLite(this);
     }
 
     
@@ -52,6 +57,33 @@ public class DiaryContentViewActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-			adapter.notifyDataSetChanged();
+		adapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		menu.add(0, Menu.FIRST, 1, "Involve Friend!");
+		menu.add(0, Menu.FIRST + 1, 1, "Synchronized Diary");
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case Menu.FIRST:
+			Intent intent = new Intent();
+			intent.putExtra("diaryId", diaryId);
+			startActivity(intent);
+			break;
+		case Menu.FIRST + 1:
+			Connection.synchronizeDiaryContent(dbHelper, diaryId);
+			break;
+		default:
+			// Do nothing
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

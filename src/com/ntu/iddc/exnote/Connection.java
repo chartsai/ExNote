@@ -15,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
@@ -41,7 +40,7 @@ public class Connection {
     	try {
     		post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
 			HttpResponse response = hc.execute(post);
-			String responseString = EntityUtils.toString(response.getEntity());
+			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
 			
 			Log.d("TAG", responseString);
 			
@@ -89,7 +88,6 @@ public class Connection {
     	Cursor cursor = dbHelper.getDiaryContentByLastUpdateTimeAndDiaryId(lastUpdateTime, diaryId);
     	JSONArray jsonarray = new JSONArray();
     	//TODO for loop to put
-    	int tmp = 0;
     	
     	if( cursor.moveToFirst() ){
     		do{
@@ -126,9 +124,9 @@ public class Connection {
 			//以上傳資料
 			//以下收資料
 			
-			String responseString = EntityUtils.toString(response.getEntity());
+			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
 			
-			Log.d("TAG", responseString);
+			Log.d("TAGGGGGG", "response String is:" + responseString);
 			
 			JSONObject jo = new JSONObject(responseString);
 			String update_time = jo.getString("update_datetime");
@@ -170,26 +168,70 @@ public class Connection {
 		return result;
 	}
 	
-	//新增被邀請的日記本(未完)
-	public static String getNewDiary(){
+	//確認有無新的日記本，有就載下來(未完)
+	public static boolean checkNewDiary(SQLite dbHelper){
 		HttpClient hc = new DefaultHttpClient();
-    	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/get-new-diary");
+    	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/check-new-diary");
     	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
-    	nvps.add(new BasicNameValuePair("diaryId", ""));
-		nvps.add(new BasicNameValuePair("userId", ""));
-		nvps.add(new BasicNameValuePair("ownerId", ""));
-		nvps.add(new BasicNameValuePair("permission", ""));
+		nvps.add(new BasicNameValuePair("userId", DiaryListActivity.userId));
+		//nvps.add(new BasicNameValuePair("ownerId", ""));
+		//nvps.add(new BasicNameValuePair("permission", ""));
 		
-		boolean result = false;		
+		Cursor cursor = dbHelper.getAllDiaryList();
+
+		JSONArray diariesArray = new JSONArray();
+		if( cursor.moveToFirst() ){
+			do {
+				diariesArray.put(cursor.getString(1));
+			} while( cursor.moveToNext() );
+		}
+
+		nvps.add(new BasicNameValuePair("userDiaries", diariesArray.toString()));
+		
+		boolean result = false;
+		
     	try {
     		post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
 			HttpResponse response = hc.execute(post);
-			String responseString = EntityUtils.toString(response.getEntity());
-			if(responseString.equals("succeed")){
+			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+			
+			JSONArray diaries_array = new JSONArray(responseString);
+			for(int i=0; i<diaries_array.length(); i++ ){
 				result = true;
+				JSONObject json = diaries_array.getJSONObject(i);
+				String diaryId = json.getString("diary_id");
+				String diaryName = json.getString("diary_name");
+				String ownerId = json.getString("owner_id");
+				String ownerName = json.getString("owner_name");
+				String updateTime = json.getString("update_time");
+				String permisson = json.getString("permission");
+				
+				//TODO getAllDiaryContent(by diaryId)
 			}
 		} catch (Exception e) {} 
 		
-		return null;
+		return result;
+	}
+	
+	public static boolean getNewDiary(SQLite dbHelper, String diaryId){
+		HttpClient hc = new DefaultHttpClient();
+    	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/get-new-diary");
+    	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
+		
+    	nvps.add(new BasicNameValuePair("diaryId", diaryId));
+		
+		boolean result = false;
+		
+		try {
+    		post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
+			HttpResponse response = hc.execute(post);
+			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+			
+			//Store All Diary In DataBase
+			
+			result = true;
+		} catch (Exception e) {} 
+		
+		return result;
 	}
 }

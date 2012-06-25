@@ -35,7 +35,7 @@ public class LoginActivity extends Activity {
 		
 	private Button ib_loginButton;
 	
-	private Facebook mFacebook;
+	public static Facebook mFacebook;
 	private AsyncFacebookRunner mAsync;
 	
     /** Called when the activity is first created. */
