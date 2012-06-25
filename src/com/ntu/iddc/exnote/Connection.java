@@ -77,12 +77,11 @@ public class Connection {
 	}
 		
 	//同步日記內容
-	public static boolean synchronizeDiaryContent(Context context, String diaryId){
+	public static boolean synchronizeDiaryContent(SQLite dbHelper, String diaryId){
 		HttpClient hc = new DefaultHttpClient();
     	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/synchronize-diary");
     	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
 
-    	SQLite dbHelper = new SQLite(context);
     	String lastUpdateTime = dbHelper.getLastUpdateTimeByDiaryId(diaryId);
     	Cursor cursor = dbHelper.getDiaryContentByLastUpdateTimeAndDiaryId(lastUpdateTime, diaryId);
     	
