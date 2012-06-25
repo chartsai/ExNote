@@ -73,7 +73,7 @@ public class DiaryContentViewActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case Menu.FIRST:
-			Intent intent = new Intent();
+			Intent intent = new Intent(DiaryContentViewActivity.this, InvolveFriendActivity.class);
 			intent.putExtra("diaryId", diaryId);
 			startActivity(intent);
 			break;
