@@ -72,23 +72,27 @@ public class SQLite extends SQLiteOpenHelper {
 	}
 	public String getLastUpdateTimeByDiaryId(String diaryId) {
 		Cursor cursor=db.rawQuery( 
-			     "SELECT UpdateTime FROM DiaryList WHERE diaryId=?", new String[]{diaryId});
-		return cursor.getString(0);
+			     "SELECT * FROM DiaryList WHERE diaryId=?", new String[]{diaryId});
+		if( cursor.moveToFirst() ){
+			return cursor.getString(5);
+		} else {
+			return "";
+		}
 	}
 	public Cursor getAllDiaryContent() {
 	    return db.rawQuery("SELECT * FROM DiaryContent", null);
 	}
 	public Cursor getAllDiaryContentByDiaryId(String diaryId) {
-	    return db.rawQuery("SELECT * FROM DiaryContent WHER diaryId=?", new String[]{diaryId});
+	    return db.rawQuery("SELECT * FROM DiaryContent WHERE diaryId=?", new String[]{diaryId});
 	}
 	public Cursor getDiaryContentByLastUpdateTime(String time) {
-	    return db.rawQuery("SELECT * FROM DiaryContent WHER UpdateTime> ?", new String[]{time});
+	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time> ?", new String[]{time});
 	}
 	public Cursor getDiaryContentByLastUpdateTimeAndDiaryId(String time,String diaryId) {
-	    return db.rawQuery("SELECT * FROM DiaryContent WHER UpdateTime> ? AND DiaryId=?", new String[]{time,diaryId});
+	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time> ? AND DiaryId=?", new String[]{time,diaryId});
 	}
 	public Cursor getAllCoWorkerByDiaryId(String diaryId) {
-	    return db.rawQuery("SELECT * FROM CoWorkerList WHER diaryId=?", new String[]{diaryId});
+	    return db.rawQuery("SELECT * FROM CoWorkerList WHERE diaryId=?", new String[]{diaryId});
 	}
 	
 	
