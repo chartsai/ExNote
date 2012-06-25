@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class Connection {
 	//在gae上創日記本
 	public static boolean createDiary(String diaryId){
@@ -38,11 +40,14 @@ public class Connection {
     		post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
 			HttpResponse response = hc.execute(post);
 			String responseString = EntityUtils.toString(response.getEntity());
+			
+			Log.d("TAG", responseString);
+			
 			if(responseString.equals("succeed")){
 				result = true;
 			}
 			
-		} catch (Exception e) {} 
+		} catch (Exception e) { Log.d("TAG", "some exception occur");} 
 		return result;
 	}
 	
