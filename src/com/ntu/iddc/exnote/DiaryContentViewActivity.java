@@ -1,10 +1,10 @@
 /**
- * é¡¯ç¤º?¥è??§å®¹????¢ã?
- * ???å¢??/??­¥?????
- * å¢???????all DiaryEditorActivityä¾?¿®??
- * ?´æ???all SynchronizerServiceä¾??æ­¥å?å®?
+ * é¡¯ç¤º?ï¿½ï¿½??ï¿½å®¹????ï¿½ï¿½?
+ * ???ï¿½??/??ï¿½ï¿½?????
+ * ï¿½???????all DiaryEditorActivityï¿½?ï¿½ï¿½??
+ * ?ï¿½ï¿½???all SynchronizerServiceï¿½??æ­¥ï¿½?ï¿½?
  * 
- * @author å¼µå???
+ * @author å¼µï¿½???
  * 
  */
 
@@ -15,6 +15,7 @@ import org.taptwo.android.widget.ViewFlow;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 public class DiaryContentViewActivity extends Activity {
@@ -29,9 +30,10 @@ public class DiaryContentViewActivity extends Activity {
 		setTitle(R.string.async_title);
 		setContentView(R.layout.title_layout);
 		Bundle bundle = this.getIntent().getExtras();
-//		authorId = bundle.getString("authorId");
-//		authorName = bundle.getString("authorName");
-//		diaryId = bundle.getString("diaryId");		
+		authorId = bundle.getString("authorId");
+		authorName = bundle.getString("authorName");
+		diaryId = bundle.getString("diaryId");		
+
 		viewFlow = (ViewFlow) findViewById(R.id.viewflow);
 		adapter = new AsyncAdapter(this, diaryId, authorId, authorName);
 		viewFlow.setAdapter(adapter, adapter.getTodayId());

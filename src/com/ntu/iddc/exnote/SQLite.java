@@ -83,16 +83,16 @@ public class SQLite extends SQLiteOpenHelper {
 	    return db.rawQuery("SELECT * FROM DiaryContent", null);
 	}
 	public Cursor getAllDiaryContentByDiaryId(String diaryId) {
-	    return db.rawQuery("SELECT * FROM DiaryContent WHERE diaryId=?", new String[]{diaryId});
+	    return db.rawQuery("SELECT * FROM DiaryContent WHERE DiaryId=?", new String[]{diaryId});
 	}
 	public Cursor getDiaryContentByLastUpdateTime(String time) {
-	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time> ?", new String[]{time});
+	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time>?", new String[]{time});
 	}
 	public Cursor getDiaryContentByLastUpdateTimeAndDiaryId(String time,String diaryId) {
-	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time> ? AND DiaryId=?", new String[]{time,diaryId});
+	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time>? AND DiaryId=?", new String[]{time,diaryId});
 	}
 	public Cursor getAllCoWorkerByDiaryId(String diaryId) {
-	    return db.rawQuery("SELECT * FROM CoWorkerList WHERE diaryId=?", new String[]{diaryId});
+	    return db.rawQuery("SELECT * FROM CoWorkerList WHERE DiaryId=?", new String[]{diaryId});
 	}
 	
 	
@@ -105,7 +105,7 @@ public class SQLite extends SQLiteOpenHelper {
 	
 	public Cursor getDiaryByDate(String date,String diaryId){
 		Cursor cursor=db.rawQuery( 
-		     "SELECT * FROM DiaryContent WHERE date=? AND diaryId=? ORDER BY Time", new String[]{date,diaryId});
+		     "SELECT * FROM DiaryContent WHERE Date=? AND DiaryId=? ORDER BY Time", new String[]{date,diaryId});
 	return cursor;
 	}
 //新增一筆記錄，成功回傳rowID，失敗回傳-1

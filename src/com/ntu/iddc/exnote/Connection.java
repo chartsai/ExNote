@@ -84,10 +84,8 @@ public class Connection {
 
     	String lastUpdateTime = dbHelper.getLastUpdateTimeByDiaryId(diaryId);
     	Cursor cursor = dbHelper.getDiaryContentByLastUpdateTimeAndDiaryId(lastUpdateTime, diaryId);
-    	
     	JSONArray jsonarray = new JSONArray();
     	//TODO for loop to put
-    	
     	int tmp = 0;
     	
     	if( cursor.moveToFirst() ){
@@ -95,6 +93,7 @@ public class Connection {
     			Log.d("TAG", "now loop: " + tmp++);
 		    	try {
 		    		JSONObject jsonobject = new JSONObject();
+		    		Log.e("EEEEEEE", cursor.getString(1));
 					jsonobject.put("authorId", cursor.getString(2));
 					jsonobject.put("authorName", cursor.getString(3));
 					jsonobject.put("datetimeString", cursor.getString(4));

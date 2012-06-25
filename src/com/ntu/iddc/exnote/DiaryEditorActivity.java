@@ -42,7 +42,6 @@ public class DiaryEditorActivity extends Activity {
 		authorId = bundle.getString("authorId");
 		authorName = bundle.getString("authorName");
 		diaryId = bundle.getString("diaryId");
-		Log.e("aaaaaa", date);
 	}
 	
 	private Button.OnClickListener saveDiary = new Button.OnClickListener()
