@@ -121,6 +121,9 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 			int rows_num = cursor.getCount();	//取得資料表列數
 	 
 			if(rows_num != 0) {
+				holder.mDate.setVisibility(View.GONE);
+//				holder.mContent.setVisibility(View.GONE);
+
 				String title = "";
 				String article = "";
 				cursor.moveToFirst();			//將指標移至第一筆資料
@@ -241,13 +244,13 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 	 */
 	private void prepareDates() {
 		Date today = new Date();
-
 		Calendar calPast = Calendar.getInstance();
 		Calendar calFuture = Calendar.getInstance();
 
 		calPast.setTime(today);
 		calFuture.setTime(today);
-
+//		calPast.add( Calendar.DATE, -10 );
+//		calFuture.add( Calendar.DATE, -10 );
 		dates[ daysDepth ] = calPast.getTime();
 		for (int i = 1; i <= daysDepth; i++) {
 			calPast.add( Calendar.DATE, -1 );

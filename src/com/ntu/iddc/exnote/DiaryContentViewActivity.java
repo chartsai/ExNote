@@ -36,7 +36,7 @@ public class DiaryContentViewActivity extends Activity {
 
 		viewFlow = (ViewFlow) findViewById(R.id.viewflow);
 		adapter = new AsyncAdapter(this, diaryId, authorId, authorName);
-		viewFlow.setAdapter(adapter, adapter.getTodayId());
+		viewFlow.setAdapter(adapter, adapter.getTodayId()+10);
 		
 		TitleFlowIndicator indicator = (TitleFlowIndicator) findViewById(R.id.viewflowindic);
 		indicator.setTitleProvider(adapter);
