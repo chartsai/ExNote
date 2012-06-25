@@ -39,7 +39,7 @@ public class DiaryListActivity extends Activity {
 	public static String userId = "";
 	public static String userName = "";
 
-	private SQLite dbHelper;
+//	private SQLite dbHelper;
 	
 	private ActionBar mActionBar;
 	private DiaryView dv_diaryView1, dv_diaryView2, dv_diaryView3,
@@ -53,7 +53,6 @@ public class DiaryListActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.diary_list_layout);
 		
-		dbHelper = new SQLite(this);
 
 		if (settings == null) {
 			settings = getSharedPreferences(APP_SP, MODE_PRIVATE);
@@ -101,7 +100,8 @@ public class DiaryListActivity extends Activity {
 		dv_diaryView3.setVisibility(View.GONE);
 		dv_diaryView2.setVisibility(View.GONE);
 		dv_diaryView1.setVisibility(View.GONE);
-		
+		SQLite dbHelper = new SQLite(this);
+
 		Cursor cursor = dbHelper.getAllDiaryList();
 		
 		Log.d("TAG", "cursor.getall diary list");
@@ -156,6 +156,7 @@ public class DiaryListActivity extends Activity {
 			}
 			
 			cursor.close();
+			dbHelper.close();
 		}
 	}
 
@@ -195,9 +196,11 @@ public class DiaryListActivity extends Activity {
 								mActionBar.setProgressBarVisibility(View.VISIBLE);
 								
 								//TODO 在本機端創日記本
+								SQLite dbHelper = new SQLite(DiaryListActivity.this);
+
 								dbHelper.creatNewDiary(df.format(date), diaryName, "android icon", userId, "0");
 								dbHelper.insertNewCoWorker(df.format(date), userId, userName, userId);
-								
+dbHelper.close();
 								//在GAE上創日記本
 								if( Connection.createDiary(df.format(date), diaryName, "", "0") ){
 									Toast.makeText(getApplicationContext(), "Create Diary on Server Succeed!", Toast.LENGTH_SHORT).show();
@@ -226,6 +229,8 @@ public class DiaryListActivity extends Activity {
 			break;
 		case Menu.FIRST + 2:
 			//TODO synchronized diary content
+			SQLite dbHelper = new SQLite(this);
+
 			Cursor cursor = dbHelper.getAllDiaryList();
 			if ( cursor.moveToFirst()) {
 				do{
@@ -233,6 +238,7 @@ public class DiaryListActivity extends Activity {
 				} while(cursor.moveToNext());
 			}
 			cursor.close();
+			dbHelper.close();
 		default:
 			// Do nothing
 			break;
