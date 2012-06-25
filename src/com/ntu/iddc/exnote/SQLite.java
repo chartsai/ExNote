@@ -62,6 +62,8 @@ public class SQLite extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		//oldVersion=舊的資料庫版本；newVersion=新的資料庫版本
 		db.execSQL("DROP TABLE IF EXISTS DiaryContent");	//刪除舊有的資料表
+		db.execSQL("DROP TABLE IF EXISTS DiaryList");	//刪除舊有的資料表
+		db.execSQL("DROP TABLE IF EXISTS CoWorkerList");	//刪除舊有的資料表
 		onCreate(db);
 	}
 	
@@ -81,6 +83,9 @@ public class SQLite extends SQLiteOpenHelper {
 	}
 	public Cursor getDiaryContentByLastUpdateTime(String time) {
 	    return db.rawQuery("SELECT * FROM DiaryContent WHER UpdateTime> ?", new String[]{time});
+	}
+	public Cursor getDiaryContentByLastUpdateTimeAndDiaryId(String time,String diaryId) {
+	    return db.rawQuery("SELECT * FROM DiaryContent WHER UpdateTime> ? AND DiaryId=?", new String[]{time,diaryId});
 	}
 	public Cursor getAllCoWorkerByDiaryId(String diaryId) {
 	    return db.rawQuery("SELECT * FROM CoWorkerList WHER diaryId=?", new String[]{diaryId});
