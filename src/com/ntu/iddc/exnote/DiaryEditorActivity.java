@@ -60,6 +60,7 @@ public class DiaryEditorActivity extends Activity {
 	    	 time = shortFormat.format(nowDate);
 	    	 dbHelper.insertNewDiary(diaryId, authorId, authorName, date, time, title+" by "+authorName, article);
 	    	 // Close this Activity
+	    	 dbHelper.close();
 	    	 DiaryEditorActivity.this.setResult(RESULT_OK);
 	    	 DiaryEditorActivity.this.finish();              
 	     	}
