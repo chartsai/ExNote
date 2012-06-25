@@ -85,7 +85,8 @@ public class Connection {
     	
     	Log.d("TAG", "WHOWHOWHO" + lastUpdateTime);
     	
-    	Cursor cursor = dbHelper.getDiaryContentByLastUpdateTimeAndDiaryId(lastUpdateTime, diaryId);
+//    	Cursor cursor = dbHelper.getDiaryContentByLastUpdateTimeAndDiaryId(lastUpdateTime, diaryId);
+    	Cursor cursor = dbHelper.getDiaryContentByDiaryIdIfNotUpload(diaryId);
     	JSONArray jsonarray = new JSONArray();
     	//TODO for loop to put
     	
@@ -148,7 +149,7 @@ public class Connection {
 				String tt = j.getString("title");
 				String ac = j.getString("article");
 				
-				dbHelper.insertNewDiary(di, ai, an, ds, at, tt, ac);
+				dbHelper.insertNewDiary(di, ai, an, ds, at, tt, ac,"T");
 				
 				/* oringnal data name
 				"diaryId"  : contents_query.diary_id,

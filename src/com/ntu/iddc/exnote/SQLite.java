@@ -93,12 +93,12 @@ public class SQLite extends SQLiteOpenHelper {
 	    return db.rawQuery("SELECT * FROM DiaryContent WHERE Time>? AND DiaryId=?", new String[]{time,diaryId});
 	}
 	public Cursor getDiaryContentByDiaryIdIfNotUpload(String diaryId) {
-		Cursor cursor =	db.rawQuery("SELECT * FROM DiaryContent WHERE IfUplaod=? AND DiaryId=?", new String[]{"F",diaryId});
+		Cursor cursor =	db.rawQuery("SELECT * FROM DiaryContent WHERE IfUpload=? AND DiaryId=?", new String[]{"F",diaryId});
 		setContentUplaod(cursor);
 		return cursor;
 	}
 	public Cursor getDiaryContentIfNotUpload() {
-		Cursor cursor =	db.rawQuery("SELECT * FROM DiaryContent WHERE IfUplaod=?", new String[]{"F"});
+		Cursor cursor =	db.rawQuery("SELECT * FROM DiaryContent WHERE IfUpload=?", new String[]{"F"});
 		setContentUplaod(cursor);
 		return cursor;
 	}
