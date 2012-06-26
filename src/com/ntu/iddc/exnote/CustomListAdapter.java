@@ -43,7 +43,7 @@ private LayoutInflater mInflater;
         ((TextView)convertView.findViewById(R.id.article)).setText(b);
         // Resets the toolbar to be closed
         View toolbar = convertView.findViewById(R.id.toolbar);
-        ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -50;
+        ((LinearLayout.LayoutParams) toolbar.getLayoutParams()).bottomMargin = -80;
         toolbar.setVisibility(View.GONE);
     
 
