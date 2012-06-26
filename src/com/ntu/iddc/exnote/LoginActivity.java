@@ -35,7 +35,7 @@ public class LoginActivity extends Activity {
 		
 	private Button ib_loginButton;
 	
-	public static Facebook mFacebook;
+	public static Facebook mFacebook = new Facebook(FACEBOOK_API_KEY);;
 	private AsyncFacebookRunner mAsync;
 	
     /** Called when the activity is first created. */
@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {
     }
     
     private void setFacebook(){
-    	mFacebook = new Facebook(FACEBOOK_API_KEY);
+//    	mFacebook = new Facebook(FACEBOOK_API_KEY);
         mAsync = new AsyncFacebookRunner(mFacebook);
     }
     
@@ -70,9 +70,10 @@ public class LoginActivity extends Activity {
     };
     
     private void loginFacebook() {
-		mFacebook.authorize(LoginActivity.this, new DialogListener(){
+		mFacebook.authorize(LoginActivity.this,new String[]{},Facebook.FORCE_DIALOG_AUTH,new DialogListener(){
 			@Override
 			public void onComplete(Bundle values) {
+				getFriendJSONDiaryList();
 				getUserIdAndShowDiaryList();
 			}
 
@@ -94,6 +95,29 @@ public class LoginActivity extends Activity {
 			} 
         });
 	}
+    
+    private void getFriendJSONDiaryList() {
+    	mAsync.request("me/friends", new RequestListener(){
+			@Override
+			public void onComplete(String response, Object state) {
+				DiaryListActivity.friendJSONString = response;
+				DiaryListActivity.settings.edit()
+					.putString(DiaryListActivity.FRIEND_JSON, response).commit();
+			}
+			@Override
+			public void onIOException(IOException e, Object state) {
+			}
+			@Override
+			public void onFileNotFoundException(FileNotFoundException e, Object state) {
+			}
+			@Override
+			public void onMalformedURLException(MalformedURLException e, Object state) {
+			}
+			@Override
+			public void onFacebookError(FacebookError e, Object state) {
+			}
+		});
+    }
     
     private void getUserIdAndShowDiaryList() {
 		mAsync.request("me", new RequestListener(){

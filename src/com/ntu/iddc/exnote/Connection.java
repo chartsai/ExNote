@@ -53,14 +53,19 @@ public class Connection {
 	}
 	
 	//邀請朋友加入
-	public static boolean addCoWorker(String diaryId, String diaryName, String coworkerId, String permission){
+	public static boolean addCoWorker(String diaryId, String diaryName, String coworkerId,
+									  String coworkerName, String ownerId, String ownerName,
+									  String permission){
+		
 		HttpClient hc = new DefaultHttpClient();
     	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/add-cowoker");
     	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
     	nvps.add(new BasicNameValuePair("diaryId", diaryId));
     	nvps.add(new BasicNameValuePair("diaryName", diaryName));
 		nvps.add(new BasicNameValuePair("userId", coworkerId));
-		nvps.add(new BasicNameValuePair("ownerId", ""));
+		nvps.add(new BasicNameValuePair("userName", coworkerName));
+		nvps.add(new BasicNameValuePair("ownerId", ownerId));//TODO future work.
+		nvps.add(new BasicNameValuePair("ownerName", ownerName));//TODO future work.
 		nvps.add(new BasicNameValuePair("permission", permission));
 		
 		boolean result = false;		
@@ -70,6 +75,7 @@ public class Connection {
 			String responseString = EntityUtils.toString(response.getEntity());
 			if(responseString.equals("succeed")){
 				result = true;
+				
 			}
 		} catch (Exception e) {} 
 		return result;
@@ -94,7 +100,6 @@ public class Connection {
     		do{
 		    	try {
 		    		JSONObject jsonobject = new JSONObject();
-		    		Log.e("EEEEEEE", cursor.getString(1));
 					jsonobject.put("authorId", cursor.getString(2));
 					jsonobject.put("authorName", cursor.getString(3));
 					jsonobject.put("datetimeString", cursor.getString(4));
@@ -135,19 +140,25 @@ public class Connection {
 			Log.d("TAG", "update_time = " + update_time);
 			dbHelper.setUpdateTimeByDiaryIdAndTime(diaryId, update_time);
 			
-			JSONArray ja = jo.getJSONArray("new_content");
+			Log.d("TAG: new_content", jo.getString("new_content") );
+			
+			JSONArray ja = new JSONArray( jo.getString("new_content") );
+			Log.d("TAG new_content", "JSONArray OK");
 			//TODO write content to db
 			for(int i=0; i<ja.length(); i++){
 				JSONObject j = new JSONObject(ja.getString(i));
+				Log.d("TAG new_content", "JSONObject OK");
 				
 				//TODO write diary content show below to db 
 				String di = j.getString("diary_id");
 				String ai = j.getString("author_id");
 				String an = j.getString("author_name");
 				String ds = j.getString("datetime_string");
-				String at = j.getString("dateTime");
+				String at = j.getString("date_time");
 				String tt = j.getString("title");
 				String ac = j.getString("article");
+				
+				Log.d("TAG DownLoad DiaryContent", j.toString());
 				
 				dbHelper.insertNewDiary(di, ai, an, ds, at, tt, ac,"T");
 				
@@ -164,13 +175,15 @@ public class Connection {
 			
 			result = true;
 			
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			Log.d("TAG DownLoad DiaryContent", "Some Exception Happen");
+		}
     	
 		return result;
 	}
 	
-	//確認有無新的日記本，有就載下來(未完)
-	public static boolean checkNewDiary(SQLite dbHelper){
+	//確認有無新的日記本，有就載下來
+	public static boolean checkNewDiaryAndDownLoadIt(SQLite dbHelper){
 		HttpClient hc = new DefaultHttpClient();
     	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/check-new-diary");
     	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
@@ -206,32 +219,88 @@ public class Connection {
 				String ownerName = json.getString("owner_name");
 				String updateTime = json.getString("update_time");
 				String permisson = json.getString("permission");
-				
-				//TODO getAllDiaryContent(by diaryId)
+
+				//創日記本
+				dbHelper.creatNewDiary(diaryId, diaryName, "", ownerId, updateTime);
+				//拿新日記本內容
+				getNewDiary(dbHelper, diaryId);
 			}
 		} catch (Exception e) {} 
 		
 		return result;
 	}
 	
-	public static boolean getNewDiary(SQLite dbHelper, String diaryId){
-		HttpClient hc = new DefaultHttpClient();
-    	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/get-new-diary");
-    	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
+	public static boolean getNewDiary(SQLite dbHelper, String diaryId){//拿整本日記(coworkerlist + content)
+		boolean result = true;
 		
-    	nvps.add(new BasicNameValuePair("diaryId", diaryId));
-		
-		boolean result = false;
-		
-		try {
-    		post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
-			HttpResponse response = hc.execute(post);
-			String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+		//拿日記coworker
+		{
+			HttpClient hc = new DefaultHttpClient();
+	    	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/get-one-diary-all-coworker-list");
+	    	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
 			
-			//Store All Diary In DataBase
+	    	nvps.add(new BasicNameValuePair("diaryId", diaryId));
 			
-			result = true;
-		} catch (Exception e) {} 
+			try {
+	    		post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
+				HttpResponse response = hc.execute(post);
+				String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+				
+				JSONArray array = new JSONArray(responseString);
+				
+				for(int i=0; i<array.length(); i++){
+					JSONObject object = new JSONObject( array.getString(i) );
+					String di = object.getString("diary_id");
+					String dn = object.getString("diary_name");
+					String ui = object.getString("user_id");
+					String un = object.getString("user_name");
+					String oi = object.getString("owner_id");
+					String on = object.getString("owner_name");
+					String pm = object.getString("permission");
+					
+					dbHelper.insertNewCoWorker(di, ui, un, on);
+				}
+				
+			} catch (Exception e) {
+				result = false;
+			}
+			
+		}
+		
+		//拿日記內容
+		{
+			HttpClient hc = new DefaultHttpClient();
+	    	HttpPost post = new HttpPost("http://exchangdiary.appspot.com/get-one-diary-all-diary-content");
+	    	List<NameValuePair> nvps = new ArrayList <NameValuePair>();
+			
+	    	nvps.add(new BasicNameValuePair("diaryId", diaryId));
+			
+			try {
+	    		post.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
+				HttpResponse response = hc.execute(post);
+				String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+				
+				JSONArray array = new JSONArray(responseString);
+				
+				for(int i=0; i<array.length(); i++){
+					JSONObject object = new JSONObject( array.getString(i) );
+					String di = object.getString("diary_id");
+					String ai = object.getString("author_id");
+					String an = object.getString("author_name");
+					String ds = object.getString("date_time_string");
+					String dt = object.getString("date_time");
+					String tt = object.getString("title");
+					String at = object.getString("artcle");
+					String ut = object.getString("update_time");
+					
+					dbHelper.insertNewDiary(diaryId, ai, an, ds, dt, tt, at, "T");
+					dbHelper.setUpdateTimeByDiaryIdAndTime(di, ut);
+				}
+				
+			} catch (Exception e) {
+				result = false;
+			} 
+		}
 		
 		return result;
 	}

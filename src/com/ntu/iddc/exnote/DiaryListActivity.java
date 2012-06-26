@@ -33,11 +33,13 @@ public class DiaryListActivity extends Activity {
 	public static final String APP_SP = "applicationSharedPreferences";
 	public static final String USER_ID = "userFacebookId";
 	public static final String USER_NAME = "userFacebookName";
+	public static final String FRIEND_JSON = "friendJSONString";
 	public static final int REQUEST_CODE_LOGIN = 11;
 
 	public static SharedPreferences settings;
 	public static String userId = "";
 	public static String userName = "";
+	public static String friendJSONString = "";
 
 //	private SQLite dbHelper;
 	
@@ -62,6 +64,7 @@ public class DiaryListActivity extends Activity {
 		if (check != "" && check != null) { // get userId succeed.
 			userId = check;
 			userName = settings.getString(USER_NAME, "No Name");
+			friendJSONString = settings.getString(FRIEND_JSON, "No Friend");
 		} else {
 			Intent intent = new Intent(DiaryListActivity.this,
 									   LoginActivity.class);
@@ -163,9 +166,10 @@ public class DiaryListActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		menu.add(0, Menu.FIRST, 1, "Create New Diary");
-		menu.add(0, Menu.FIRST + 1, 1, "Logout");
-		menu.add(0, Menu.FIRST + 2, 2, "Synchronize Diary");
+		menu.add(0, Menu.FIRST, 0, "Create New Diary");
+		menu.add(0, Menu.FIRST + 3, 1, "Check New Cowork Diary");
+		menu.add(0, Menu.FIRST + 1, 0, "Logout");
+		menu.add(0, Menu.FIRST + 2, 1, "Synchronize Diary");
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -200,7 +204,7 @@ public class DiaryListActivity extends Activity {
 
 								dbHelper.creatNewDiary(df.format(date), diaryName, "android icon", userId, "0");
 								dbHelper.insertNewCoWorker(df.format(date), userId, userName, userId);
-dbHelper.close();
+								dbHelper.close();
 								//在GAE上創日記本
 								if( Connection.createDiary(df.format(date), diaryName, "", "0") ){
 									Toast.makeText(getApplicationContext(), "Create Diary on Server Succeed!", Toast.LENGTH_SHORT).show();
@@ -220,9 +224,11 @@ dbHelper.close();
 		case Menu.FIRST + 1:
 			settings.edit().putString(USER_ID, "")
 						   .putString(USER_NAME, "")
+						   .putString(FRIEND_JSON, "")
 						   .commit();
 			userId = "";
 			userName = "";
+			friendJSONString = "";
 			Intent intent = new Intent(DiaryListActivity.this,
 					LoginActivity.class);
 			startActivity(intent);
@@ -239,6 +245,11 @@ dbHelper.close();
 			}
 			cursor.close();
 			dbHelper.close();
+			break;
+		case Menu.FIRST + 3:
+			Connection.checkNewDiaryAndDownLoadIt(new SQLite(this));
+			setDiaries();
+			break;
 		default:
 			// Do nothing
 			break;
@@ -254,7 +265,8 @@ dbHelper.close();
      	intent.setClass(DiaryListActivity.this, DiaryContentViewActivity.class);
 		Bundle bundle = new Bundle();
      	bundle.putString("authorId", userId);
-     	bundle.putString("diaryId", dv.getDiaryId().toString());
+     	bundle.putString("diaryId", dv.getDiaryId());
+     	bundle.putString("diaryName", dv.getDiaryName());
      	bundle.putString("authorName", userName);
 
      	intent.putExtras(bundle);

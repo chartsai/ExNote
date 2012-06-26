@@ -25,7 +25,7 @@ public class DiaryContentViewActivity extends Activity {
 	private ViewFlow viewFlow;
 	AsyncAdapter adapter;
 	Button button;
-	String authorId, authorName, diaryId;
+	String authorId, authorName, diaryId, diaryName;
 	private SQLite dbHelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,8 @@ public class DiaryContentViewActivity extends Activity {
 		Bundle bundle = this.getIntent().getExtras();
 		authorId = bundle.getString("authorId");
 		authorName = bundle.getString("authorName");
-		diaryId = bundle.getString("diaryId");		
+		diaryId = bundle.getString("diaryId");
+		diaryName = bundle.getString("diaryName");
 
 		viewFlow = (ViewFlow) findViewById(R.id.viewflow);
 		adapter = new AsyncAdapter(this, diaryId, authorId, authorName);
@@ -75,6 +76,7 @@ public class DiaryContentViewActivity extends Activity {
 		case Menu.FIRST:
 			Intent intent = new Intent(DiaryContentViewActivity.this, InvolveFriendActivity.class);
 			intent.putExtra("diaryId", diaryId);
+			intent.putExtra("diaryName", diaryName);
 			startActivity(intent);
 			break;
 		case Menu.FIRST + 1:
