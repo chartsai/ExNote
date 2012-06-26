@@ -85,7 +85,6 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 
 	private View drawView(int position, View view) {
 		ViewHolder holder = null;
-		
 		if(view == null) {
 			view = mInflater.inflate(R.layout.day_view, null);
 			
@@ -96,7 +95,7 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 			holder.mContent = (View) view.findViewById(R.id.content);
 			holder.mNewDiary= (Button) view.findViewById(R.id.NewDiary);
 			holder.mNewDiary.setOnClickListener(newDiary);
-			holder.mNewDiary.setVisibility(View.GONE);
+			holder.mNewDiary.setVisibility(View.INVISIBLE);
 			holder.list = (ListView)view.findViewById(R.id.udiniList);
 
 			view.setTag(holder);
@@ -139,7 +138,7 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 					listAdapter.add(json.toString());
 					cursor.moveToNext();		//將指標移至下一筆資料
 				}
-				holder.mDate.setText(title);
+//				holder.mDate.setText(title);
 			}
 			cursor.close();		//關閉Cursor
 			dbHelper.close();	//關閉資料庫，釋放記憶體
@@ -188,7 +187,7 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 			if(o.equals(getItem(daysDepth)))
 				holder.mNewDiary.setVisibility(View.VISIBLE);
 			else
-				holder.mNewDiary.setVisibility(View.GONE);
+				holder.mNewDiary.setVisibility(View.INVISIBLE);
 			
 				
 			
@@ -197,7 +196,7 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 			new LoadContentTask().execute(position, view);
 			holder.mContent.setVisibility(View.GONE);
 			holder.mProgressBar.setVisibility(View.VISIBLE);
-			holder.mNewDiary.setVisibility(View.GONE);
+			holder.mNewDiary.setVisibility(View.INVISIBLE);
 
 		}
 	
@@ -259,7 +258,7 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 			calFuture.add( Calendar.DATE, 1 );
 			dates[ daysDepth + i ] = calFuture.getTime();
 		}
-	}
+	} 
 	
 	
 	private class LoadContentTask extends AsyncTask<Object, Object, Object> {
@@ -273,11 +272,11 @@ public class AsyncAdapter extends BaseAdapter implements TitleProvider {
 			view = (View) arg[1];
 
 // long-term task is here 			
-			try {
-				Thread.sleep(1000); // do nothing for 3000 miliseconds (3 second)
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Thread.sleep(50); // do nothing for 3000 miliseconds (3 second)
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 			
 			return getTitle(position);
 		}
