@@ -30,14 +30,13 @@ public class DiaryContentViewActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitle(R.string.async_title);
 		setContentView(R.layout.title_layout);
 		Bundle bundle = this.getIntent().getExtras();
 		authorId = bundle.getString("authorId");
 		authorName = bundle.getString("authorName");
 		diaryId = bundle.getString("diaryId");
 		diaryName = bundle.getString("diaryName");
-
+		setTitle(diaryName);
 		viewFlow = (ViewFlow) findViewById(R.id.viewflow);
 		adapter = new AsyncAdapter(this, diaryId, authorId, authorName);
 		viewFlow.setAdapter(adapter, adapter.getTodayId());
