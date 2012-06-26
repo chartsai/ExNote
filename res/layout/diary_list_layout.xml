@@ -54,11 +54,10 @@
             android:id="@+id/diaryView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/diaryView3"
             android:layout_alignParentRight="true"
             android:layout_marginRight="60dp"
             android:onClick="OnDiaryClickListener"
-            android:src="@drawable/diary" />
+            android:src="@drawable/diary" android:layout_marginTop="69dp"/>
 
         <com.ntu.iddc.exnote.DiaryView
             android:id="@+id/diaryView4"
