@@ -109,6 +109,7 @@ public class Connection {
 			    	jsonarray.put(jsonobject.toString());
 				} catch (JSONException e) {}
     		} while( cursor.moveToNext() );
+    		dbHelper.setContentUplaod(cursor);
     	}
     	
     	cursor.close();
