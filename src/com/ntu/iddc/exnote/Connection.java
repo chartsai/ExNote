@@ -283,18 +283,25 @@ public class Connection {
 				
 				JSONArray array = new JSONArray(responseString);
 				
+				Log.d("X TAG get diary content", "responseString is :" +responseString);
+				
 				for(int i=0; i<array.length(); i++){
+					
+					Log.d("TAG: this is object string", array.getString(i) );
+					
 					JSONObject object = new JSONObject( array.getString(i) );
 					String di = object.getString("diary_id");
 					String ai = object.getString("author_id");
 					String an = object.getString("author_name");
-					String ds = object.getString("date_time_string");
-					String dt = object.getString("datetime");
+					String ds = object.getString("datetime_string");
+					String dt = object.getString("date_time");
 					String tt = object.getString("title");
 					String at = object.getString("article");
 					String ut = object.getString("update_time");
 					
-					dbHelper.insertNewDiary(diaryId, ai, an, ds, dt, tt, at, "T");
+					Log.d("X TAG get diary content", "object.toString() is " + object.toString());
+					
+					dbHelper.insertNewDiary(di, ai, an, ds, dt, tt, at, "T");
 					dbHelper.setUpdateTimeByDiaryIdAndTime(di, ut);
 				}
 				
