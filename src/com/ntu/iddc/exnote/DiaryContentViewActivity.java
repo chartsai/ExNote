@@ -81,6 +81,7 @@ public class DiaryContentViewActivity extends Activity {
 			break;
 		case Menu.FIRST + 1:
 			Connection.synchronizeDiaryContent(dbHelper, diaryId);
+			adapter.notifyDataSetChanged();
 			break;
 		default:
 			// Do nothing

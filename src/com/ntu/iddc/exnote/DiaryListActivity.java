@@ -47,8 +47,9 @@ public class DiaryListActivity extends Activity {
 	private DiaryView dv_diaryView1, dv_diaryView2, dv_diaryView3,
 					  dv_diaryView4, dv_diaryView5, dv_diaryView6;
 	
-	private TextView tv_selectedDiaryName;
-
+	private TextView  tv_diaryName1, tv_diaryName2, tv_diaryName3,
+					  tv_diaryName4, tv_diaryName5, tv_diaryName6;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -87,7 +88,12 @@ public class DiaryListActivity extends Activity {
 		dv_diaryView5 = (DiaryView) findViewById(R.id.diaryView5);
 		dv_diaryView6 = (DiaryView) findViewById(R.id.diaryView6);
 		
-		tv_selectedDiaryName = (TextView) findViewById(R.id.diaryName_text);
+		tv_diaryName1 = (TextView)  findViewById (R.id.textView1);
+		tv_diaryName2 = (TextView)  findViewById (R.id.textView2);
+		tv_diaryName3 = (TextView)  findViewById (R.id.textView3);
+		tv_diaryName4 = (TextView)  findViewById (R.id.textView4);
+		tv_diaryName5 = (TextView)  findViewById (R.id.textView5);
+		tv_diaryName6 = (TextView)  findViewById (R.id.textView6);
 	}
 
 	private void setListeners() {
@@ -103,6 +109,13 @@ public class DiaryListActivity extends Activity {
 		dv_diaryView3.setVisibility(View.GONE);
 		dv_diaryView2.setVisibility(View.GONE);
 		dv_diaryView1.setVisibility(View.GONE);
+		tv_diaryName6.setVisibility(View.GONE);
+		tv_diaryName5.setVisibility(View.GONE);
+		tv_diaryName4.setVisibility(View.GONE);
+		tv_diaryName3.setVisibility(View.GONE);
+		tv_diaryName2.setVisibility(View.GONE);
+		tv_diaryName1.setVisibility(View.GONE);
+		
 		SQLite dbHelper = new SQLite(this);
 
 		Cursor cursor = dbHelper.getAllDiaryList();
@@ -114,8 +127,10 @@ public class DiaryListActivity extends Activity {
 			case 6:
 				dv_diaryView6.setDiaryId(cursor.getString(1));
 				dv_diaryView6.setDiaryName(cursor.getString(2));
-				dv_diaryView6.setImageResource(R.drawable.ic_launcher);
+				//TODO dv_diaryView6.setImageResource(R.drawable.ic_launcher);
 				dv_diaryView6.setVisibility(View.VISIBLE);
+				tv_diaryName6.setText(cursor.getString(2));
+				tv_diaryName6.setVisibility(View.VISIBLE);
 				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 5:
@@ -123,6 +138,8 @@ public class DiaryListActivity extends Activity {
 				dv_diaryView5.setDiaryName(cursor.getString(2));
 				//TODO set image
 				dv_diaryView5.setVisibility(View.VISIBLE);
+				tv_diaryName5.setText(cursor.getString(2));
+				tv_diaryName5.setVisibility(View.VISIBLE);
 				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 4:
@@ -130,6 +147,8 @@ public class DiaryListActivity extends Activity {
 				dv_diaryView4.setDiaryName(cursor.getString(2));
 				//TODO set image
 				dv_diaryView4.setVisibility(View.VISIBLE);
+				tv_diaryName4.setText(cursor.getString(2));
+				tv_diaryName4.setVisibility(View.VISIBLE);
 				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 3:
@@ -137,6 +156,8 @@ public class DiaryListActivity extends Activity {
 				dv_diaryView3.setDiaryName(cursor.getString(2));
 				//TODO set image
 				dv_diaryView3.setVisibility(View.VISIBLE);
+				tv_diaryName3.setText(cursor.getString(2));
+				tv_diaryName3.setVisibility(View.VISIBLE);
 				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 2:
@@ -144,12 +165,16 @@ public class DiaryListActivity extends Activity {
 				dv_diaryView2.setDiaryName(cursor.getString(2));
 				//TODO set image
 				dv_diaryView2.setVisibility(View.VISIBLE);
+				tv_diaryName2.setText(cursor.getString(2));
+				tv_diaryName2.setVisibility(View.VISIBLE);
 				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 				cursor.moveToPrevious();
 			case 1:
 				dv_diaryView1.setDiaryId(cursor.getString(1));
 				dv_diaryView1.setDiaryName(cursor.getString(2));
-				dv_diaryView1.setImageResource(R.drawable.ic_launcher);
+				//TODO dv_diaryView1.setImageResource(R.drawable.ic_launcher);
+				tv_diaryName1.setText(cursor.getString(2));
+				tv_diaryName1.setVisibility(View.VISIBLE);
 				dv_diaryView1.setVisibility(View.VISIBLE);
 				Connection.synchronizeDiaryContent(dbHelper, cursor.getString(1));
 			case 0:
@@ -260,7 +285,6 @@ public class DiaryListActivity extends Activity {
 	//onClickListener for DiaryView
 	public void OnDiaryClickListener(View v){
 		DiaryView dv = (DiaryView) v;
-		tv_selectedDiaryName.setText(dv.getDiaryId());
 		Intent intent = new Intent();
      	intent.setClass(DiaryListActivity.this, DiaryContentViewActivity.class);
 		Bundle bundle = new Bundle();
