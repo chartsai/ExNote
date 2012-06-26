@@ -289,9 +289,9 @@ public class Connection {
 					String ai = object.getString("author_id");
 					String an = object.getString("author_name");
 					String ds = object.getString("date_time_string");
-					String dt = object.getString("date_time");
+					String dt = object.getString("datetime");
 					String tt = object.getString("title");
-					String at = object.getString("artcle");
+					String at = object.getString("article");
 					String ut = object.getString("update_time");
 					
 					dbHelper.insertNewDiary(diaryId, ai, an, ds, dt, tt, at, "T");
